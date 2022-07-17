@@ -58,11 +58,15 @@ data class Vector2D(val dx: Double, val dy: Double) {
   }
 
   fun vectorProject(target: Vector2D): Vector2D {
-    val out: Vector2D = target.times(this.times(target) / target.times(target))
-    //val x: Int = 1000000
-    //val x_double: Double = 1000000.0
-    //return Vector2D(Math.round(out.dx * x) / x_double, Math.round(out.dy * x) / x_double)
-    return out
+    if      (target.dx != 0.0 && target.dy == 0.0) { // X axis
+      return Vector2D(dx, 0.0)
+    }
+    else if (target.dx == 0.0 && target.dy != 0.0) { // Y axis
+      return Vector2D(0.0, dy)
+    }
+    else { // Compute it "as it should be"
+      return target.times(this.times(target) / target.times(target))
+    }
   }
 }
 

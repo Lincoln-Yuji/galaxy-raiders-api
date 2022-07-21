@@ -89,8 +89,11 @@ class GameEngine(
   fun handleCollisions() {
     this.field.spaceObjects.forEachPair {
         (first, second) ->
-      if (first.impacts(second)) {
-        first.collideWith(second, GameEngineConfig.coefficientRestitution)
+      if (first.impacts(second) && !(first is Explosion) && !(second is Explosion)) {
+        var collision_point = first.collideWith(second, GameEngineConfig.coefficientRestitution)
+        if ((first is Asteroid && second is Missile) || (first is Missile && second is Asteroid)) {
+          this.field.generateExplosion(collision_point)
+        }
       }
     }
   }
@@ -102,7 +105,7 @@ class GameEngine(
   fun generateAsteroids() {
     val probability = generator.generateProbability()
 
-    if (probability <= GameEngineConfig.asteroidProbability) {
+    if (probability <= GameEngineConfig.asteroidProbability / 2) {
       this.field.generateAsteroid()
     }
   }

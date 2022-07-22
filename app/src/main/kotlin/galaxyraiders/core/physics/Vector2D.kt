@@ -58,17 +58,15 @@ data class Vector2D(val dx: Double, val dy: Double) {
   }
 
   fun vectorProject(target: Vector2D): Vector2D {
-    val projected_vector: Vector2D
-    if      (target.dx != 0.0 && target.dy == 0.0) { // X axis
-      projected_vector = Vector2D(dx, 0.0)
+    val projectedVector: Vector2D
+    if (target.dx != 0.0 && target.dy == 0.0) { // X axis
+      projectedVector = Vector2D(dx, 0.0)
+    } else if (target.dx == 0.0 && target.dy != 0.0) { // Y axis
+      projectedVector = Vector2D(0.0, dy)
+    } else { // Compute it "as it should be"
+      projectedVector = target.times(this.times(target) / target.times(target))
     }
-    else if (target.dx == 0.0 && target.dy != 0.0) { // Y axis
-      projected_vector = Vector2D(0.0, dy)
-    }
-    else { // Compute it "as it should be"
-      projected_vector = target.times(this.times(target) / target.times(target))
-    }
-    return projected_vector
+    return projectedVector
   }
 }
 

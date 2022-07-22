@@ -90,9 +90,11 @@ class GameEngine(
     this.field.spaceObjects.forEachPair {
         (first, second) ->
       if (first.impacts(second) && !(first is Explosion) && !(second is Explosion)) {
-        var collision_point = first.collideWith(second, GameEngineConfig.coefficientRestitution)
-        if ((first is Asteroid && second is Missile) || (first is Missile && second is Asteroid)) {
-          this.field.generateExplosion(collision_point)
+        var collisionPoint = first.collideWith(second, GameEngineConfig.coefficientRestitution)
+        val atLeastOneAsteroid: Boolean = first is Asteroid || second is Asteroid
+        val atLeastOneMissile: Boolean = first is Missile || second is Missile
+        if (atLeastOneAsteroid && atLeastOneMissile) { // Collision between an Asteroid and a Missile
+          this.field.generateExplosion(collisionPoint)
         }
       }
     }

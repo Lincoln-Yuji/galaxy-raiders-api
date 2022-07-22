@@ -23,6 +23,8 @@ object SpaceFieldConfig {
   val asteroidMinMass = config.get<Int>("ASTEROID_MIN_MASS")
   val asteroidMaxMass = config.get<Int>("ASTEROID_MAX_MASS")
   val asteroidMassMultiplier = config.get<Double>("ASTEROID_MASS_MULTIPLIER")
+
+  const val explosionSpeed: Double = 1.2
 }
 
 @Suppress("TooManyFunctions")
@@ -52,7 +54,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
   fun generateExplosion(pos: Point2D) {
     for (x in 1 downTo -1 step 2) {
       for (y in 1 downTo -1 step 2) {
-        explosions += createExplosion(pos, Vector2D(x.toDouble(), y.toDouble()).unit, 1.2)
+        explosions += createExplosion(pos, Vector2D(x.toDouble(), y.toDouble()).unit, SpaceFieldConfig.explosionSpeed)
       }
     }
   }

@@ -9,16 +9,17 @@ class Explosion(
   radius: Double,
   mass: Double
 ) :
-  SpaceObject("Explosion", 'E', initialPosition, initialVelocity, radius, mass) {
-    var is_triggered = true
+  SpaceObject("Explosion", 'x', initialPosition, initialVelocity, radius, mass) {
+    var visible_frame_count = 90
+    // Efeito de explosão fica visível por um curto período
     override fun move() {
-      if (this is Explosion) {
-        if (this.is_triggered) {
-          this.is_triggered = false
-        }
-        else {
-          this.radius = 0.0
-        }
+      super.move()
+      if (this.visible_frame_count > 0) {
+        this.visible_frame_count -= 1
+      }
+      else {
+        // Esconde a explosão
+        this.radius = 0.0
       }
     }
   }

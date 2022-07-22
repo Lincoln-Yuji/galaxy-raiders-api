@@ -50,7 +50,11 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
   }
 
   fun generateExplosion(pos: Point2D) {
-    explosions += createExplosion(pos)
+    for (x in 1 downTo -1 step 2) {
+      for (y in 1 downTo -1 step 2) {
+        explosions += createExplosion(pos, Vector2D(x.toDouble(), y.toDouble()).unit, 1.2)
+      }
+    }
   }
 
   private fun initializeShip(): SpaceShip {
@@ -70,12 +74,12 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
     return Vector2D(dx = 0.0, dy = 0.0)
   }
 
-  private fun createExplosion(pos: Point2D): Explosion {
+  private fun createExplosion(pos: Point2D, dir: Vector2D, vel: Double): Explosion {
     return Explosion(
       initialPosition = pos,
-      initialVelocity = Vector2D(dx = 0.0, dy = 0.0),
-      radius = 0.6,
-      mass = 0.0,
+      initialVelocity = dir * vel,
+      radius = 0.8,
+      mass = 0.5,
     )
   }
 

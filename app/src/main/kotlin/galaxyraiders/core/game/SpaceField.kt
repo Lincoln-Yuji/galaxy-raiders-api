@@ -81,7 +81,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
       initialPosition = pos,
       initialVelocity = dir * vel,
       radius = 0.8,
-      mass = 0.5,
+      mass = 0.1,
     )
   }
 
